@@ -11,11 +11,6 @@ Antes de começar, você precisa instalar, caso não tenha, as seguintes ferrame
 ```bash
   pip install termcolor
 ```
-- [Typing](https://pypi.org/project/typing/)
-```bash
-  pip install typing
-```
-
 ## Como usar
 
 Primeiramente, abra um terminal e execute o servidor utilizando o seguinte comando:
@@ -29,6 +24,7 @@ Depois disso, abra um terminal para cada cliente e, em todos, execute o seguinte
 ```bash
   python3 client.py
 ```
+Depois disso veja o resultado do arquivo sendo enviado pro servidor e sendo devolvido pro cliente!
 
 ## Grupo:
 * [Camila Xavier de Medeiros (cxm)](https://github.com/cxmedeiros)
