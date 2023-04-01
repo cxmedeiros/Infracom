@@ -24,7 +24,7 @@ Depois disso, abra um terminal para cada cliente e, em todos, execute o seguinte
 ```bash
   python3 client.py
 ```
-Depois disso veja o arquivo sendo enviado pro servidor e sendo devolvido pro cliente (primeira entrega do projeto) :)
+Em seguida, veja o arquivo sendo enviado pro servidor e sendo devolvido pro cliente (primeira entrega do projeto) :)
 
 ## Grupo:
 * [Camila Xavier de Medeiros (cxm)](https://github.com/cxmedeiros)
