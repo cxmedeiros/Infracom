@@ -7,10 +7,6 @@ Antes de começar, você precisa instalar, caso não tenha, as seguintes ferrame
 
 - [Python 3.10](https://www.python.org/downloads/)
 
-- [Termcolor](https://pypi.org/project/termcolor/)
-```bash
-  pip install termcolor
-```
 ## Como usar
 
 Primeiramente, abra um terminal e execute o servidor utilizando o seguinte comando:
