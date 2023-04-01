@@ -3,7 +3,7 @@ Repositório do projeto da cadeira de Infraestrutura de Comunicação do Cin
 
 ## Setup inicial
 
-Antes de começar, você precisa instalar, caso não tenha, as seguintes ferramentas:
+Antes de começar, você precisa instalar, caso não tenha, a seguinte ferramenta:
 
 - [Python 3.10](https://www.python.org/downloads/)
 
