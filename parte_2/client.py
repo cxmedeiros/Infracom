@@ -10,10 +10,10 @@ class Client:
         self.rdt_receiver = RdtReceiver(self.clientSocket)
 
     def run(self):
-        print("Client is connected!")
+        print("Client is connected!\n")
 
-        for i in range(0, 2):
-            if self.rdt_sender.is_waiting_call():
+        for i in range(2):
+            if self.rdt_sender.is_waiting():
                 print("New package being sent to server, using RDT protocol...")
                 self.rdt_sender.send("Message from client",
                                      (IP_ADDRESS, PORT_NO))
@@ -23,6 +23,8 @@ class Client:
             seqnum, _ = message.decode().split(',')
             print("Message received from server, using RDT protocol...")
             self.rdt_receiver.receive(serverAddress, seqnum)
+
+            print("\n\n")
 
         self.clientSocket.close()
 

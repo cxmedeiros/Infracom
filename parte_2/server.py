@@ -11,9 +11,9 @@ class Server():
 
     def start(self):
         self.serverSock.bind((IP_ADDRESS, PORT_NO))
-        print("Server is connected!")
+        print("Server is connected!\n")
 
-        for i in range(0, 2):
+        for i in range(2):
             print("Waiting for message from client...")
             msg, addr = self.serverSock.recvfrom(BUFFER_SIZE)
             seqnum, _ = msg.decode().split(',')
@@ -21,9 +21,11 @@ class Server():
             print("Message received from client, using RDT protocol...")
             self.rdt_receiver.receive(addr, seqnum)
 
-            if self.rdt_sender.is_waiting_call():
+            if self.rdt_sender.is_waiting():
                 print("New package being sent to client, using RDT protocol...")
                 self.rdt_sender.send("Message from server", addr)
+
+            print("\n\n")
 
 
 if __name__ == "__main__":

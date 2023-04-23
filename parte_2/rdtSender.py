@@ -16,7 +16,7 @@ class RdtSender:
 
     def send(self, chunk, address):
         self.waiting = False
-
+        print("package is being codified...")
         pkt = self.sequence_number + "," + chunk
 
         while not self.waiting:
@@ -31,17 +31,16 @@ class RdtSender:
 
             try:
                 ack, address = self.socket.recvfrom(BUFFER_SIZE)
+
+                if self.check_ack(ack.decode()):
+                    print("Correct ack received!")
+                    self.socket.settimeout(None)
+                    self.change_seq_num()
+                    self.waiting = True
             except socket.timeout:
                 print("Timeout! Resending package...")
-                # continue
 
-            if self.check_ack(ack.decode()):
-                print("Correct ack received!")
+            
 
-                self.socket.settimeout(None)
-                self.change_seq_num()
-
-                self.waiting = True
-
-    def is_waiting_call(self):
+    def is_waiting(self):
         return self.waiting

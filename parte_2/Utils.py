@@ -10,4 +10,4 @@ class PckgLossGenerator:
 IP_ADDRESS = "127.0.0.1"
 PORT_NO = 6789
 BUFFER_SIZE = 1024
-LOSS_RATE = 0.2
+LOSS_RATE = 0.5

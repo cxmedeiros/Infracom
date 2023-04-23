@@ -17,7 +17,7 @@ class RdtReceiver:
     def receive(self, address, seqnum):
         while not self.check_seq_num(seqnum):
             ack = self.change_seq_num().encode()
-            print(f"Duplicate detected, resending ack {ack.decode()}!\n\n")
+            print(f"Resending ack {ack.decode()} due to duplicate!")
             self.socket.sendto(ack, address)
 
             message, _ = self.socket.recvfrom(BUFFER_SIZE)
@@ -25,7 +25,7 @@ class RdtReceiver:
 
         else:
             ack = self.sequence_number.encode()
-            print(f"Package is correct, sending ack {ack.decode()}!\n\n")
+            print(f"Correct package, ack {ack.decode()} will be sent!")
             self.socket.sendto(ack, address)
 
             self.sequence_number = self.change_seq_num()
