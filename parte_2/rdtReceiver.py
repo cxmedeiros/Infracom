@@ -1,33 +1,31 @@
-import socket
+from Utils import BUFFER_SIZE, LOSS_RATE, PckgLossGenerator
 
-IP_ADDRESS = "127.0.0.1"
-PORT_NO = 6789
-BUFFER_SIZE = 1024
+class RdtReceiver:
+    def __init__(self, socket):
+        self.sequence_number = '0'
+        self.socket = socket
+        self.error = PckgLossGenerator(LOSS_RATE)
 
-def __check_pkt(seq_num, expected_seq_num):
-    return seq_num == expected_seq_num
+    def check_seq_num(self, seqnum):
+        print("seqnum: ", seqnum)
+        print("self.sequence_number: ", self.sequence_number)
+        return seqnum == self.sequence_number
 
-def __nott(seq_num):
-    return '0' if seq_num  == '1' else '1'
+    def change_seq_num(self):
+        return '0' if self.sequence_number == '1' else '1'
 
-def rdtReceiving(socket, addr, seq_num, expected_seq_num):
-    print("Entered rdtReceiving function\n")
-    print("Expected seq_num: ", expected_seq_num, "\n")
-
-    while True:        
-        if not __check_pkt(seq_num, expected_seq_num):
-            ack = __nott(seq_num).encode()
+    def receive(self, address, seqnum):
+        while not self.check_seq_num(seqnum):
+            ack = self.change_seq_num().encode()
             print(f"Duplicate detected, resending ack {ack.decode()}!\n\n")
-            socket.sendto(ack, addr)
+            self.socket.sendto(ack, address)
 
-            msg, _ = socket.recvfrom(BUFFER_SIZE)
-            seq_num, _ = msg.decode().split(',')
+            message, _ = self.socket.recvfrom(BUFFER_SIZE)
+            seqnum, _ = message.decode().split(',')
 
         else:
-            ack = seq_num.encode()
+            ack = self.sequence_number.encode()
             print(f"Package is correct, sending ack {ack.decode()}!\n\n")
-            socket.sendto(ack, addr)
-            
-            expected_seq_num = __nott(expected_seq_num)
-            return expected_seq_num
+            self.socket.sendto(ack, address)
 
+            self.sequence_number = self.change_seq_num()

@@ -1,57 +1,47 @@
-# from socket import settimeout
 import socket
+from Utils import BUFFER_SIZE, LOSS_RATE, PckgLossGenerator
 
-IP_ADDRESS = "127.0.0.1"
-PORT_NO = 6789
-BUFFER_SIZE = 1024
+class RdtSender:
+    def __init__(self, socket):
+        self.socket = socket
+        self.sequence_number = '0'
+        self.waiting = True
+        self.error = PckgLossGenerator(LOSS_RATE)
 
-def ack_confirm(ack, seq_num):
-    return ack == seq_num
+    def check_ack(self, ack):
+        return ack == self.sequence_number
 
-def seq_num_change(seq_num):
-    if seq_num == '0':
-        return '1'
-    else:
-        return '0'
-    
-def is_waiting_ack(waiting):
-    return waiting
+    def change_seq_num(self):
+        self.sequence_number = '0' if self.sequence_number == '1' else '1'
 
-def rdtSending(socket, chunk, addr, seq_num, waiting):
-    print("Sending package...")
-    waiting = False
+    def send(self, chunk, address):
+        self.waiting = False
 
-    # Criando o pacote com número de sequência e dado.
-    pkt = seq_num + "," + chunk
-    print(pkt)
+        pkt = self.sequence_number + "," + chunk
 
-    # Enquanto está no estado de espera pelo ack correto, continua retransmitindo o último pacote enviado após timeout.
-    while not waiting:
-        print(f"Sending package with: ({seq_num}, \"{chunk}\")")
-        socket.sendto(pkt.encode(), addr)
+        while not self.waiting:
+            if self.error.is_lost():
+                print("Package is lost!")
+            else:
+                print(
+                    f"Sending... Package format: ({self.sequence_number}, \"{chunk}\")")
+                self.socket.sendto(pkt.encode(), address)
 
-        # Ligando o temporizador
-        socket.settimeout(5)
+            self.socket.settimeout(5)
 
-        try:
-            ack, addr = socket.recvfrom(BUFFER_SIZE)
-        except socket.timeout:
-            # Detectando timeout.
-            print("Timeout!\n\n")
-            continue
+            try:
+                ack, address = self.socket.recvfrom(BUFFER_SIZE)
+            except socket.timeout:
+                print("Timeout! Resending package...")
+                # continue
 
-        # Verificando se o ack recebido é correto.
-        if ack_confirm(ack.decode(), seq_num):
-            print("The ack is correct!\n\n")
+            if self.check_ack(ack.decode()):
+                print("Correct ack received!")
 
-            # Desligando o temporizador
-            socket.settimeout(None)
-            # Atualizando o número de sequência.
-            seq_num = seq_num_change(seq_num)
+                self.socket.settimeout(None)
+                self.change_seq_num()
 
-            # Voltando para o estado de espera pela transmissão de uma nova mensagem.
-            waiting = True
+                self.waiting = True
 
-    return seq_num, waiting
-
-
+    def is_waiting_call(self):
+        return self.waiting
