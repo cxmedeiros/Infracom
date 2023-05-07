@@ -1,5 +1,5 @@
 # Infracom
-Repositório do projeto da cadeira de Infraestrutura de Comunicação do Cin
+Repositório do projeto da cadeira de Infraestrutura de Comunicação do Cin. CINtofome :)
 
 ## Setup inicial
 
