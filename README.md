@@ -26,7 +26,7 @@ Depois disso, abra um terminal para cada cliente e, em todos, execute o seguinte
 ```bash
   python3 client.py
 ```
-Em seguida, veja o arquivo sendo enviado pro servidor e sendo devolvido pro cliente (primeira entrega do projeto) :)
+Em seguida, se divirta testando as possíveis operações que o cliente pode executar e recebendo as devidas respostas do servidor:)
 
 ## Grupo:
 * [Camila Xavier de Medeiros (cxm)](https://github.com/cxmedeiros)
