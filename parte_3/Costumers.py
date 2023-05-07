@@ -22,7 +22,7 @@ class Costumers:
             total += self.table_sheet[costumers]["personal_bill"]
         return total
     
-    def distribute_accumulative_bill(self, client, bill):
+    def distribute_accumulative_bill(self, client, bill):            # Metodo para distribuir o dinheiro pago a mais para os outros clientes
         count = len(self.table_sheet) - 1
         for costumer in self.table_sheet:
             if costumer != client and self.table_sheet[costumer]["personal_bill"] >= bill/count:
