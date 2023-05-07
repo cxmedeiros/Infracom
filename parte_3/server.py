@@ -136,6 +136,7 @@ class Server():
         elif float(data) == personal_bill:     
             break  # Se o valor informado for igual ao valor da conta pessoal, encerra a função
 
+
         message = "Deseja confirmar o pagamento? (sim ou não)"
         if self.rdt_sender.is_waiting():
             self.rdt_sender.send(message, self.addr)
